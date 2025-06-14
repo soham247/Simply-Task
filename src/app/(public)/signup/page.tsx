@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useActionState } from "react";
 import { useEffect } from "react";
 import { toast } from "sonner";
-import { signUpWithEmailAction } from "@/lib/actions/auth";
+import { signUpWithEmailAction, signUpWithGithub } from "@/lib/actions/auth";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -46,13 +46,11 @@ export default function SignUpPage() {
       <Card>
         <CardHeader>
           <CardTitle>Sign Up</CardTitle>
-          <CardDescription>
-            Create a new account
-          </CardDescription>
+          <CardDescription>Create a new account</CardDescription>
         </CardHeader>
         <CardContent>
-          <form action={formAction}>
-            <div className="flex flex-col gap-6">
+            <form action={formAction}>
+          <div className="flex flex-col gap-6">
               <div className="grid gap-3">
                 <Label htmlFor="name">Name</Label>
                 <Input
@@ -94,26 +92,28 @@ export default function SignUpPage() {
               <Button type="submit" className="w-full text-white">
                 Sign Up
               </Button>
-              <div className="after:border-border relative text-center text-sm after:absolute after:inset-0 after:top-1/2 after:z-0 after:flex after:items-center after:border-t">
-                <span className="bg-card text-muted-foreground relative z-10 px-2">
-                  Or continue with
-                </span>
               </div>
-              <Button variant="outline" className="w-full">
-                <Github className="items-center h-4 w-4" />
-                <span>Sign Up with Github</span>
+            </form>
+            <div className="my-2 after:border-border relative text-center text-sm after:absolute after:inset-0 after:top-1/2 after:z-0 after:flex after:items-center after:border-t">
+              <span className="bg-card text-muted-foreground relative z-10 px-2">
+                Or continue with
+              </span>
+            </div>
+            <form action={signUpWithGithub}>
+              <Button variant="outline" type="submit" className="w-full text-white">
+                <Github className="mr-2 h-4 w-4" />
+                <span>Sign up with GitHub</span>
               </Button>
-            </div>
-            <div className="mt-4 text-center text-sm">
-              Already have an account?{" "}
-              <Link
-                href="/signin"
-                className="underline underline-offset-4 text-primary"
-              >
-                Sign In
-              </Link>
-            </div>
-          </form>
+            </form>
+          <div className="mt-4 text-center text-sm">
+            Already have an account?{" "}
+            <Link
+              href="/signin"
+              className="underline underline-offset-4 text-primary"
+            >
+              Sign In
+            </Link>
+          </div>
         </CardContent>
       </Card>
     </div>

@@ -1,7 +1,7 @@
 import env from "@/app/env";
 import { Client, Account, Databases, Teams, Storage, Messaging } from "node-appwrite"
 
-let client = new Client();
+const client = new Client();
 
 client
   .setEndpoint(env.appwrite.endpoint)

@@ -9,7 +9,7 @@ export default async function getOrCreateDB() {
         console.log('====================================');
         console.log('DB connected');
         console.log('====================================');
-    } catch (error) {
+    } catch {
         try {
             await databases.create(db, db);
             console.log('====================================');
@@ -22,7 +22,7 @@ export default async function getOrCreateDB() {
             console.log('====================================');
             console.log('Collections created');
             console.log('====================================');
-        } catch (error) {
+        } catch {
             console.log('====================================');
             console.log('DB creation failed');
             console.log('====================================');

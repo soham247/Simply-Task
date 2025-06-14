@@ -1,5 +1,5 @@
-import { account, databases, client } from "./appwrite";
-import { Client, Account, ID, Query } from "node-appwrite";
+import { account } from "./appwrite";
+import { Client, Account, ID } from "node-appwrite";
 import { cookies } from "next/headers";
 import env from "@/app/env";
 
@@ -11,7 +11,7 @@ export interface User {
   emailVerification: boolean;
   phone: string;
   phoneVerification: boolean;
-  prefs: Record<string, any>;
+  prefs: Record<string, unknown>;
   status: boolean;
   labels: string[];
   accessedAt: string;
@@ -76,8 +76,8 @@ async function createAccount(email: string, password: string, name: string) {
     try {
         const user = await account.create(ID.unique(), email, password, name);
         return { success: true, user };
-    } catch (error: any) {
-        return { success: false, error: error.message };
+    } catch (error: unknown) {
+        return { success: false, error: (error as Error).message };
     }
 }
 
@@ -90,8 +90,8 @@ async function createEmailSession(email: string, password: string) {
         cookieStore.set(SESSION_COOKIE, session.secret, COOKIE_OPTIONS);
 
         return { success: true, session };
-    } catch (error: any) {
-        return { success: false, error: error.message };
+    } catch (error) {
+        return { success: false, error: (error as Error).message };
     }
 }
 
@@ -113,8 +113,8 @@ async function getCurrentSession() {
         const session = await sessionAccount.getSession("current");
 
         return { success: true, session };
-    } catch (error: any) {
-        return { success: false, error: error.message };
+    } catch (error) {
+        return { success: false, error: (error as Error).message };
     }
 }
 
@@ -130,8 +130,8 @@ async function getCurrentUser() {
         const user = await sessionAccount.get();
 
         return { success: true, user };
-    } catch (error: any) {
-        return { success: false, error: error.message };
+    } catch (error) {
+        return { success: false, error: (error as Error).message };
     }
 }
 
@@ -148,8 +148,8 @@ async function logout() {
         cookieStore.delete(SESSION_COOKIE);
 
         return { success: true };
-    } catch (error: any) {
-        return { success: false, error: error.message };
+    } catch (error) {
+        return { success: false, error: (error as Error).message };
     }
 }
 
@@ -166,8 +166,8 @@ async function logoutAll() {
         cookieStore.delete(SESSION_COOKIE);
 
         return { success: true };
-    } catch (error: any) {
-        return { success: false, error: error.message };
+    } catch (error) {
+        return { success: false, error: (error as Error).message };
     }
 }
 
@@ -182,8 +182,8 @@ async function sendEmailVerification(url: string) {
         await sessionAccount.createVerification(url);
 
         return { success: true };
-    } catch (error: any) {
-        return { success: false, error: error.message };
+    } catch (error) {
+        return { success: false, error: (error as Error).message };
     }
 }
 
@@ -191,8 +191,8 @@ async function verifyEmail(userId: string, secret: string) {
     try {
         await account.updateVerification(userId, secret);
         return { success: true };
-    } catch (error: any) {
-        return { success: false, error: error.message };
+    } catch (error) {
+        return { success: false, error: (error as Error).message };
     }
 }
 
@@ -200,8 +200,8 @@ async function sendPasswordRecovery(email: string, url: string) {
     try {
         await account.createRecovery(email, url);
         return { success: true };
-    } catch (error: any) {
-        return { success: false, error: error.message };
+    } catch (error) {
+        return { success: false, error: (error as Error).message };
     }
 }
 
@@ -209,8 +209,8 @@ async function resetPassword(userId: string, secret: string, password: string) {
     try {
         await account.updateRecovery(userId, secret, password);
         return { success: true };
-    } catch (error: any) {
-        return { success: false, error: error.message };
+    } catch (error) {
+        return { success: false, error: (error as Error).message };
     }
 }
 
@@ -225,8 +225,8 @@ async function updateName(name: string) {
         const user = await sessionAccount.updateName(name);
 
         return { success: true, user };
-    } catch (error: any) {
-        return { success: false, error: error.message };
+    } catch (error) {
+        return { success: false, error: (error as Error).message };
     }
 }
 
@@ -241,8 +241,8 @@ async function updateEmail(email: string, password: string) {
         const user = await sessionAccount.updateEmail(email, password);
 
         return { success: true, user };
-    } catch (error: any) {
-        return { success: false, error: error.message };
+    } catch (error) {
+        return { success: false, error: (error as Error).message };
     }
 }
 
@@ -257,8 +257,8 @@ async function updatePassword(newPassword: string, oldPassword: string) {
         const user = await sessionAccount.updatePassword(newPassword, oldPassword);
 
         return { success: true, user };
-    } catch (error: any) {
-        return { success: false, error: error.message };
+    } catch (error) {
+        return { success: false, error: (error as Error).message };
     }
 }
 
@@ -273,8 +273,8 @@ async function getSessions() {
         const sessions = await sessionAccount.listSessions();
 
         return { success: true, sessions: sessions.sessions };
-    } catch (error: any) {
-        return { success: false, error: error.message };
+    } catch (error) {
+        return { success: false, error: (error as Error).message };
     }
 }
 
@@ -295,8 +295,8 @@ async function deleteSession(sessionId: string) {
         }
 
         return { success: true };
-    } catch (error: any) {
-        return { success: false, error: error.message };
+    } catch (error) {
+        return { success: false, error: (error as Error).message };
     }
 }
 
@@ -333,4 +333,3 @@ export {
     isAuthenticated,
     requireAuth,
 };
-

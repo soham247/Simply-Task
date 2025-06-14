@@ -1,8 +1,10 @@
 "use server";
 
 import { createEmailSession, createAccount } from "@/lib/server/auth";
+import { headers } from "next/headers";
 import { redirect } from "next/navigation";
-import { AppwriteException } from "node-appwrite";
+import { AppwriteException, OAuthProvider } from "node-appwrite";
+import { account } from "../server/appwrite";
 
 interface FormState {
   success: boolean;
@@ -114,4 +116,16 @@ async function signUpWithEmailAction(
   }
 }
 
-export { signInWithEmailAction, signUpWithEmailAction };
+async function signUpWithGithub() {
+  const origin = (await headers()).get("origin");
+  
+	const redirectUrl = await account.createOAuth2Token(
+		OAuthProvider.Github,
+		`${origin}/api/oauth`,
+		`${origin}/signup`,
+	);
+
+	return redirect(redirectUrl);
+};
+
+export { signInWithEmailAction, signUpWithEmailAction, signUpWithGithub };

@@ -13,7 +13,7 @@ import { Label } from "@/components/ui/label";
 import Link from "next/link";
 import { useActionState, useEffect } from "react";
 import { toast } from "sonner";
-import { signInWithEmailAction } from "@/lib/actions/auth";
+import { signInWithEmailAction, signUpWithGithub } from "@/lib/actions/auth";
 import { Github } from "lucide-react";
 
 interface FormState {
@@ -83,16 +83,18 @@ export default function SignInForm() {
               <Button type="submit" className="w-full text-white">
                 Sign In
               </Button>
-              <div className="after:border-border relative text-center text-sm after:absolute after:inset-0 after:top-1/2 after:z-0 after:flex after:items-center after:border-t">
+            </div>
+            </form>
+              <div className="after:border-border my-2 relative text-center text-sm after:absolute after:inset-0 after:top-1/2 after:z-0 after:flex after:items-center after:border-t">
                 <span className="bg-card text-muted-foreground relative z-10 px-2">
                   Or continue with
                 </span>
               </div>
-              <Button variant="outline" className="w-full">
-                <Github className="items-center h-4 w-4" />
-                <span>Sign In with Github</span>
+              <form action={signUpWithGithub}>
+              <Button variant="outline" type="submit" className="w-full text-white">
+                <Github className="mr-2 h-4 w-4" />
+                <span>Sign up with GitHub</span>
               </Button>
-            </div>
             <div className="mt-4 text-center text-sm">
               Don&apos;t have an account?{" "}
               <Link

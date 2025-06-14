@@ -1,7 +1,7 @@
-import { NextRequest, NextResponse } from "next/server";
+import { NextResponse } from "next/server";
 import getOrCreateDB from "./lib/server/dbSetup";
 
-export async function middleware( request: NextRequest ) {
+export async function middleware() {
     await Promise.all([
         getOrCreateDB()
     ])

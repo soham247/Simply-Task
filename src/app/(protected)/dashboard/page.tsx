@@ -14,7 +14,7 @@ async function handleLogout() {
 
 export default async function AccountPage() {
     const userResult = await getCurrentUser();
-    
+ 
     if (!userResult.success) {
         redirect("/signin");
     }
