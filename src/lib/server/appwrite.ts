@@ -1,5 +1,5 @@
 import env from "@/app/env";
-import { Client, Account, Databases, Teams, Storage, Messaging } from "node-appwrite"
+import { Client, Account, Databases, Storage, Teams } from "node-appwrite"
 
 const client = new Client();
 
@@ -11,15 +11,35 @@ client
 
 const account = new Account(client);
 const databases = new Databases(client);
-const teams = new Teams(client);
 const storage = new Storage(client);
-const messaging = new Messaging(client);
+const teams = new Teams(client);
+
+// Helper function to create authenticated client
+function createSessionClient(session?: string) {
+  const sessionClient = new Client()
+    .setEndpoint(env.appwrite.endpoint)
+    .setProject(env.appwrite.projectId);
+  
+  if (session) {
+    sessionClient.setSession(session);
+  } else {
+    sessionClient.setKey(env.appwrite.apiKey);
+  }
+  
+  return {
+    account: new Account(sessionClient),
+    databases: new Databases(sessionClient),
+    storage: new Storage(sessionClient),
+    teams: new Teams(sessionClient),
+    client: sessionClient
+  };
+}
 
 export {
   client,
   account,
   databases,
-  teams,
   storage,
-  messaging
+  teams,
+  createSessionClient,
 }

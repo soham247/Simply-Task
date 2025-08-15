@@ -1,6 +1,6 @@
 "use server";
 
-import { createEmailSession, createAccount } from "@/lib/server/auth";
+import { createEmailSession, createAccount, logout } from "@/lib/server/auth";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 import { AppwriteException, OAuthProvider } from "node-appwrite";
@@ -128,4 +128,14 @@ async function signUpWithGithub() {
 	return redirect(redirectUrl);
 };
 
-export { signInWithEmailAction, signUpWithEmailAction, signUpWithGithub };
+async function logoutAction() {
+  const result = await logout();
+  
+  if (result.success) {
+    redirect("/");
+  }
+  
+  return result;
+}
+
+export { signInWithEmailAction, signUpWithEmailAction, signUpWithGithub, logoutAction };

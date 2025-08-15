@@ -1,7 +1,7 @@
 import { getCurrentUser, logout } from "@/lib/server/auth";
 import { redirect } from "next/navigation";
 
-async function handleLogout() {
+export async function handleLogout() {
     "use server";
     
     try {

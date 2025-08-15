@@ -1,9 +1,9 @@
 "use client";
-import * as React from "react";
 
 import {
   Sidebar,
   SidebarContent,
+  SidebarFooter,
   SidebarGroup,
   SidebarGroupContent,
   SidebarGroupLabel,
@@ -14,11 +14,14 @@ import {
   SidebarRail,
 } from "@/components/ui/sidebar";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
+import { Button } from "./ui/button";
+// import { logout } from "@/lib/server/auth";
+import { toast } from "sonner";
+import { logoutAction } from "@/lib/actions/auth";
+import { useTransition } from "react";
 
-// This is sample data.
 const data = {
-  versions: ["1.0.1", "1.1.0-alpha", "2.0.0-beta1"],
   navMain: [
     {
       title: "My Space",
@@ -55,7 +58,16 @@ const data = {
   ],
 };
 
+
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+  const router = useRouter();
+  const [isPending, startTransition] = useTransition();
+
+  const handleLogout = () => {
+    startTransition(async () => {
+      await logoutAction();
+    });
+  };
   const pathname = usePathname();
   return (
     <Sidebar {...props}>
@@ -82,6 +94,13 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         ))}
       </SidebarContent>
       <SidebarRail />
+      <SidebarFooter className="border-t-[1px]">
+        <Button
+          className="text-white"
+          onClick={handleLogout}
+          disabled={isPending}
+        >Logout</Button>
+      </SidebarFooter >
     </Sidebar>
   );
 }
